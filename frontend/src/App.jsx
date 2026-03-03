@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react"
-import { apiDelete, apiGet, apiPatch, apiPost } from "./api.js"
+import { apiDelete, apiGet, apiPatch, apiPost, apiGetWeather } from "./api.js"
 
 export default function App() {
   const [items, setItems] = useState([])
@@ -8,6 +8,21 @@ export default function App() {
   const [loading, setLoading] = useState(false)
 
   const remaining = useMemo(() => items.filter(x => !x.done).length, [items])
+
+  const [weather, setWeather] = useState(null)
+
+  async function loadWeather() {
+    try {
+      const w = await apiGetWeather()
+      setWeather(w)
+    } catch (e) {
+      setWeather(null)
+    }
+  }
+  useEffect(() => {
+    refresh()
+    loadWeather()
+  }, [])
 
   async function refresh() {
     setLoading(true)
@@ -21,10 +36,6 @@ export default function App() {
       setLoading(false)
     }
   }
-
-  useEffect(() => {
-    refresh()
-  }, [])
 
   async function onAdd(e) {
     e.preventDefault()
@@ -67,7 +78,11 @@ export default function App() {
           <h1>Todo</h1>
           <div className="meta">{remaining} remaining</div>
         </div>
-
+        {weather ? (
+          <div className="muted">
+            Now: {weather.temperature_f}°F · {weather.humidity_percent}% humidity · {weather.wind_mph} mph wind
+          </div>
+        ) : null}
         <form onSubmit={onAdd} className="row">
           <input
             value={text}

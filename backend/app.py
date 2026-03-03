@@ -1,4 +1,5 @@
 import os
+import requests
 import time
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -30,6 +31,34 @@ def list_todos():
     items = list(todos.values())
     items.sort(key=lambda x: x["id"])
     return jsonify({"items": items})
+
+@app.get("/api/weather")
+def weather():
+    lat = float(request.args.get("lat", os.environ.get("DEFAULT_LAT", "34.0224")))
+    lon = float(request.args.get("lon", os.environ.get("DEFAULT_LON", "-118.2851")))
+
+    url = "https://api.open-meteo.com/v1/forecast"
+    params = {
+        "latitude": lat,
+        "longitude": lon,
+        "current": "temperature_2m,relative_humidity_2m,wind_speed_10m",
+        "temperature_unit": "fahrenheit",
+        "wind_speed_unit": "mph"
+    }
+
+    r = requests.get(url, params=params, timeout=10)
+    r.raise_for_status()
+    data = r.json()
+
+    current = data.get("current", {})
+    return jsonify({
+        "latitude": lat,
+        "longitude": lon,
+        "temperature_f": current.get("temperature_2m"),
+        "humidity_percent": current.get("relative_humidity_2m"),
+        "wind_mph": current.get("wind_speed_10m"),
+        "time": current.get("time")
+    })
 
 @app.post("/api/todos")
 def create_todo():

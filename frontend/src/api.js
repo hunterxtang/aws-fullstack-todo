@@ -7,6 +7,10 @@ export async function apiGet(path) {
   return data
 }
 
+export async function apiGetWeather() {
+  return apiGet("/api/weather")
+}
+
 export async function apiPost(path, body) {
   const r = await fetch(base + path, {
     method: "POST",
