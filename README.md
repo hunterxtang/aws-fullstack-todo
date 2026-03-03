@@ -11,9 +11,11 @@ A full-stack todo application deployed on AWS.
 
 ## Live Deployment
 
-Frontend: http://huntertang-todo-frontend-20260303.s3-website.us-east-2.amazonaws.com
+Frontend: 
 
-Backend API: 
+http://huntertang-todo-frontend-20260303.s3-website.us-east-2.amazonaws.com
+
+Backend: 
 
 https://a8ui9rgiex.us-east-2.awsapprunner.com
 
