@@ -44,7 +44,9 @@ Backend:
 ```bash
 cd backend
 python3 app.py
-
+```
 Frontend:
+```bash
 cd frontend
 npm run dev
+```
