@@ -42,13 +42,13 @@ Todos API: https://a8ui9rgiex.us-east-2.awsapprunner.com/api/todos
 
 The backend fetches real-time weather data from the Open-Meteo API and exposes it through the endpoint:
 
-GET /api/weather
+    GET /api/weather
 
 The frontend consumes this endpoint and displays:
 
-Temperature (°F)
-Humidity (%)
-Wind Speed (mph)
+    Temperature (°F)
+    Humidity (%)
+    Wind Speed (mph)
 
 This demonstrates backend-to-external API integration and frontend-to-backend communication in a deployed cloud environment.
 
